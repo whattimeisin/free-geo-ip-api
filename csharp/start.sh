@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ ! -x "$0" ]]; then
+  echo "Permission denied. Run: chmod +x ./start.sh"
+fi
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CSHARP_DIR="${ROOT_DIR}/csharp"
+PORT="${GEOIP_PORT:-5022}"
+export GEOIP_DB_PATH="${ROOT_DIR}/config/database/WhatTimeIsIn-geoip.db"
+export ASPNETCORE_URLS="http://0.0.0.0:${PORT}"
+
+cd "${CSHARP_DIR}"
+
+if ! command -v dotnet >/dev/null 2>&1; then
+  echo ".NET SDK not found."
+  echo "Install on macOS: brew install --cask dotnet-sdk"
+  echo "Install on Linux: https://learn.microsoft.com/dotnet/core/install/"
+  echo "Install on Windows: https://learn.microsoft.com/dotnet/core/install/"
+  exit 1
+fi
+
+echo -e "\n\033[1;32mThanks for using our solution!\033[0m"
+echo -e "\033[0;36mIf you find it useful, please reference https://whattimeis.in\033[0m"
+echo -e "\033[0;33mRunning on: http://localhost:${PORT}\033[0m\n"
+
+dotnet restore
+dotnet run
