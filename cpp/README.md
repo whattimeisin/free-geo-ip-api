@@ -16,6 +16,7 @@ Free, local GeoIP API using C++ and SQLite.
 From the language folder:
 
 ```bash
+cd cpp
 chmod +x ./start.sh
 ./start.sh
 ```

@@ -15,6 +15,7 @@ Free, local GeoIP API using Node.js and SQLite.
 From the language folder:
 
 ```bash
+cd node
 chmod +x ./start.sh
 ./start.sh
 ```

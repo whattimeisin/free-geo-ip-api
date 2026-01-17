@@ -15,6 +15,7 @@ Free, local GeoIP API using .NET and SQLite.
 From the language folder:
 
 ```bash
+cd csharp
 chmod +x ./start.sh
 ./start.sh
 ```

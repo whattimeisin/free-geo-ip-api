@@ -16,6 +16,7 @@ Free, local GeoIP API using Ruby and SQLite.
 From the language folder:
 
 ```bash
+cd ruby
 chmod +x ./start.sh
 ./start.sh
 ```

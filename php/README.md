@@ -16,6 +16,7 @@ Free, local GeoIP API using PHP and SQLite.
 From the language folder:
 
 ```bash
+cd php
 chmod +x ./start.sh
 ./start.sh
 ```

@@ -15,6 +15,7 @@ Free, local GeoIP API using Rust and SQLite.
 From the language folder:
 
 ```bash
+cd rust
 chmod +x ./start.sh
 ./start.sh
 ```

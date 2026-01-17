@@ -16,6 +16,7 @@ Free, local GeoIP API using Go and SQLite.
 From the language folder:
 
 ```bash
+cd go
 chmod +x ./start.sh
 ./start.sh
 ```
