@@ -1,6 +1,14 @@
 # WhatTimeIsIn GeoIP
 
-A free, local GeoIP API that provides location, timezone, and ASN information for IPv4 and IPv6 without relying on external services. All lookups are resolved using a local SQLite database, keeping IP data private and avoiding third-party calls.
+A free, local GeoIP API that provides **location, timezone, and ASN information**
+for **IPv4 and IPv6** without relying on external services.
+
+All lookups are resolved using a **local SQLite database**, keeping IP data private
+and avoiding third-party network calls.
+
+![License](https://img.shields.io/badge/license-Apache%202.0-D22128)
+![IPv6](https://img.shields.io/badge/IPv6-supported-blue)
+![Privacy](https://img.shields.io/badge/no%20external%20calls-privacy--friendly-success)
 
 ---
 
