@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Free GeoIP API – IPv4 & IPv6 Location, Timezone & ASN | WhatTimeIsIn</title>
+    <meta
+      name="description"
+      content="Free local GeoIP API with IPv4 and IPv6 support. Detect IP location, timezone and ASN with no external requests. Open source and privacy-friendly."
+    />
+    <link rel="canonical" href="https://whattimeis.in/geo-ip" />
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "WhatTimeIsIn GeoIP API",
+        "operatingSystem": "Any",
+        "applicationCategory": "DeveloperApplication",
+        "description": "Free GeoIP API with IPv4 and IPv6 support for IP location, timezone and ASN lookup.",
+        "url": "https://whattimeis.in/geo-ip",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f7fb;
+        --card: #ffffff;
+        --text: #1b1f24;
+        --muted: #5f6368;
+        --accent: #2563eb;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 40px 20px 0px;
+      }
+      .card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 24px;
+        margin-top: 24px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 32px;
+      }
+      p {
+        color: var(--muted);
+        margin: 0 0 12px;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      code,
+      pre {
+        background: #f2f4f8;
+        border-radius: 8px;
+      }
+      pre {
+        padding: 12px;
+        overflow: auto;
+      }
+      .badges img {
+        height: 20px;
+        margin-right: 8px;
+      }
+      .img {
+        margin-top: 16px;
+        border-radius: 10px;
+        max-width: 100%;
+        height: auto;
+      }
+      .tabs {
+        display: inline-flex;
+        gap: 4px;
+        padding: 4px;
+        border-radius: 10px;
+        background: #f2f4f8;
+        border: 1px solid #e5e7eb;
+        margin: 16px 0 8px;
+      }
+      .tab-btn {
+        padding: 8px 14px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        background: transparent;
+        color: #1b1f24;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .tab-btn.active {
+        background: #ffffff;
+        border-color: #e5e7eb;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+      .tab-content {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 16px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .badge--success {
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #86efac;
+      }
+      .kv {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 6px 12px;
+        margin: 8px 0;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .kv strong {
+        color: var(--text);
+      }
+      .section-title {
+        margin: 16px 0 6px;
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .tab-container {
+        position: relative;
+      }
+      .copy-btn {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid #d0d7de;
+        background: #ffffff;
+        color: #1b1f24;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .copy-btn:active {
+        transform: scale(0.98);
+      }
+      ul {
+        padding-left: 18px;
+        margin: 8px 0 0;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="wrap">
+      <div class="badges">
+        <img
+          alt="Apache 2.0 Open Source License"
+          loading="lazy"
+          width="120"
+          height="20"
+          src="https://img.shields.io/badge/license-Apache%202.0-D22128"
+        />
+        <img
+          alt="IPv6 GeoIP Supported"
+          loading="lazy"
+          width="110"
+          height="20"
+          src="https://img.shields.io/badge/IPv6-supported-blue"
+        />
+      </div>
+
+      <h1>WhatTimeIsIn GeoIP</h1>
+      <p>
+        Free, local GeoIP API that provides location, timezone, and ASN data for
+        IPv4/IPv6 with no external calls.
+      </p>
+    </header>
+
+    <main class="wrap">
+      <section class="card">
+        <h2>What is the WhatTimeIsIn GeoIP API?</h2>
+        <p>
+          The WhatTimeIsIn GeoIP API is a free, privacy-friendly service that lets
+          you detect a user's location, timezone, and ASN information using IPv4
+          or IPv6 addresses.
+        </p>
+        <p>
+          Unlike most GeoIP services, this API runs locally using a consolidated
+          database derived from MaxMind data and does not send user IP addresses
+          to third-party providers.
+        </p>
+        <ul>
+          <li>✔ IPv4 and IPv6 support</li>
+          <li>✔ Timezone detection by IP</li>
+          <li>✔ ASN and network information</li>
+          <li>✔ No external API calls</li>
+          <li>✔ Free for personal and commercial use (with attribution)</li>
+        </ul>
+        <p style="margin-top: 12px">
+          Looking for timezone conversions? Try our
+          <a href="https://whattimeis.in">world clock</a> or
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Live GeoIP Lookup</h2>
+        <p>Detect your public IP or enter another IP and run the lookup.</p>
+        <div class="card" style="margin-top: 12px; padding: 0px;">
+          <label for="ip-input"><strong>IP address</strong></label>
+          <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap">
+            <input
+              id="ip-input"
+              type="text"
+              placeholder="e.g. 1.178.1.0 or 2001:0218:6002:0000:0000:0000:0000:0000"
+              style="
+                flex: 1 1 360px;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid #d0d7de;
+                background: #ffffff;
+                color: #1b1f24;
+              "
+            />
+            <button
+              id="detect-btn"
+              type="button"
+              style="
+                padding: 10px 14px;
+                border-radius: 8px;
+                border: 1px solid #d0d7de;
+                background: #f2f4f8;
+                color: #1b1f24;
+                cursor: pointer;
+              "
+            >
+              Detect my IP
+            </button>
+            <button
+              id="lookup-btn"
+              type="button"
+              style="
+                padding: 10px 14px;
+                border-radius: 8px;
+                border: 1px solid #1d4ed8;
+                background: #2563eb;
+                color: #ffffff;
+                font-weight: 600;
+                cursor: pointer;
+              "
+            >
+              Run lookup
+            </button>
+          </div>
+          <p style="margin-top: 8px">
+            <strong>Request URL:</strong>
+            <code id="request-url" style="font-family: 'Courier New', Courier, monospace">-</code>
+            <a
+              id="request-try"
+              href="#"
+              target="_blank"
+              rel="noopener"
+              style="margin-left: 8px"
+            >
+              Try
+            </a>
+          </p>
+        </div>
+        <div class="tabs">
+          <button id="tab-visual" class="tab-btn active" type="button">Visual</button>
+          <button id="tab-json" class="tab-btn" type="button">JSON</button>
+        </div>
+        <div class="tab-container">
+          <button id="copy-btn" class="copy-btn" type="button">Copy</button>
+          <div id="panel-visual" class="tab-panel active">
+            <div class="tab-content">
+              <div id="visual-output">waiting for response...</div>
+            </div>
+          </div>
+          <div id="panel-json" class="tab-panel">
+            <div class="tab-content">
+              <pre><code id="response-output">waiting for response...</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>GeoIP API Response Example</h2>
+        <p>
+          Use the Visual tab for a readable summary or JSON for the raw API output.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Supported Programming Languages</h2>
+        <p>
+          Implement your own GeoIP API or build an internal app (Detect my IP,
+          dashboards, or internal systems) using any language below.
+        </p>
+        <ul>
+          <li>
+            <a href="https://github.com/whattimeisin/free-geo-ip-api/tree/main/python"
+              >Python</a
+            >,
+            <a href="https://github.com/whattimeisin/free-geo-ip-api/tree/main/go"
+              >Go</a
+            >,
+            <a href="https://github.com/whattimeisin/free-geo-ip-api/tree/main/node"
+              >Node.js</a
+            >,
+            <a href="https://github.com/whattimeisin/free-geo-ip-api/tree/main/php"
+              >PHP</a
+            >,
+            <a href="https://github.com/whattimeisin/free-geo-ip-api/tree/main/ruby"
+              >Ruby</a
+            >,
+            <a href="https://github.com/whattimeisin/free-geo-ip-api/tree/main/rust"
+              >Rust</a
+            >,
+            <a href="https://github.com/whattimeisin/free-geo-ip-api/tree/main/cpp"
+              >C++</a
+            >,
+            <a href="https://github.com/whattimeisin/free-geo-ip-api/tree/main/csharp"
+              >C#</a
+            >
+          </li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>GeoIP Data Source & Accuracy</h2>
+        <p>
+          This GeoIP data is consolidated from the MaxMind GeoLite database and
+          updated monthly to ensure accuracy for IP location and timezone detection.
+        </p>
+      </section>
+    </main>
+
+    <footer class="wrap">
+      <p>
+        Built by <a href="https://whattimeis.in">WhatTimeIsIn</a> · Free GeoIP API ·
+        Privacy-first
+      </p>
+    </footer>
+    <script>
+      const ipInput = document.getElementById("ip-input");
+      const detectBtn = document.getElementById("detect-btn");
+      const lookupBtn = document.getElementById("lookup-btn");
+      const requestUrl = document.getElementById("request-url");
+      const requestTry = document.getElementById("request-try");
+      const tabVisual = document.getElementById("tab-visual");
+      const tabJson = document.getElementById("tab-json");
+      const panelVisual = document.getElementById("panel-visual");
+      const panelJson = document.getElementById("panel-json");
+      const copyBtn = document.getElementById("copy-btn");
+      const responseOutput = document.getElementById("response-output");
+      const visualOutput = document.getElementById("visual-output");
+
+      function setActiveTab(tab) {
+        const isVisual = tab === "visual";
+        tabVisual.classList.toggle("active", isVisual);
+        tabJson.classList.toggle("active", !isVisual);
+        panelVisual.classList.toggle("active", isVisual);
+        panelJson.classList.toggle("active", !isVisual);
+      }
+
+      async function fetchJson(url) {
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error(`Request failed: ${res.status}`);
+        }
+        return res.json();
+      }
+
+      function buildUrl(ip) {
+        return `https://whattimeis.in/geo-ip/api?ip=${encodeURIComponent(ip)}`;
+      }
+
+      async function detectIp() {
+        try {
+          const apiData = await fetchJson("https://whattimeis.in/geo-ip/api");
+          const ip = apiData.ip;
+          if (ip) {
+            ipInput.value = ip;
+            const url = buildUrl(ip);
+            requestUrl.textContent = url;
+            requestTry.href = url;
+          }
+          return ip;
+        } catch (err) {
+          responseOutput.textContent =
+            "Error: " + (err && err.message ? err.message : String(err));
+          return null;
+        }
+      }
+
+      function renderVisual(data) {
+        if (!data || typeof data !== "object") {
+          visualOutput.textContent = "No response data.";
+          return;
+        }
+        const location = data.location || {};
+        const geo = location.geo || {};
+        const country = geo.country || {};
+        const continent = geo.continent || {};
+        const subdivision2 = geo.subdivision_2 || {};
+        const subdivision1 = geo.subdivision_1 || {};
+        const city = geo.city || {};
+        const coords = location.coordinates || {};
+        const asn = data.asn || {};
+        const asnNetwork = asn.network || {};
+        const locNetwork = location.network || {};
+        const traits = location.traits || {};
+
+        const plainText = [
+          "Summary",
+          "----",
+          `Status: ${data.status ?? "-"}`,
+          `IP: ${data.ip ?? "-"}`,
+          `IP Version: ${data.ip_version ?? "-"}`,
+          `Source: ${location.source ?? "-"}`,
+          "",
+          "Location",
+          "----",
+          `Continent: ${continent.name ?? "-"}`,
+          `Country: ${country.name ?? "-"}`,
+          `Subdivision: ${subdivision1.name ?? "-"}`,
+          `Subdivision 2: ${subdivision2.name ?? "-"}`,
+          `City: ${city.name ?? "-"}`,
+          `Time Zone: ${geo.time_zone ?? "-"}`,
+          `Latitude: ${coords.latitude ?? "-"}`,
+          `Longitude: ${coords.longitude ?? "-"}`,
+          `Postal Code: ${location.postal_code ?? "-"}`,
+          "",
+          "ASN",
+          "----",
+          `Number: ${asn.number ?? "-"}`,
+          `Organization: ${asn.organization ?? "-"}`,
+          `ASN CIDR: ${asnNetwork.cidr ?? "-"}`,
+          "",
+          "Network",
+          "----",
+          `Location CIDR: ${locNetwork.cidr ?? "-"}`,
+          `Prefix Length: ${locNetwork.prefix_length ?? "-"}`,
+          `IP Version: ${locNetwork.ip_version ?? "-"}`,
+          `GeoName ID: ${location.geoname_id ?? "-"}`,
+          `Registered Country: ${location.registered_country_geoname_id ?? "-"}`,
+          `Represented Country: ${location.represented_country_geoname_id ?? "-"}`,
+          "",
+          "Traits",
+          "----",
+          `Anonymous Proxy: ${traits.is_anonymous_proxy ?? "-"}`,
+          `Satellite Provider: ${traits.is_satellite_provider ?? "-"}`,
+          `Anycast: ${traits.is_anycast ?? "-"}`,
+          `EU Member: ${country.is_in_european_union ?? "-"}`,
+        ].join("\n");
+        visualOutput.dataset.copyText = plainText;
+
+        visualOutput.innerHTML = `
+          <div class="section-title">Summary</div>
+          <div class="kv">
+            <div>Status</div>
+            <strong>${
+              data.status === 200
+                ? '<span class="badge badge--success">200 OK</span>'
+                : data.status ?? "-"
+            }</strong>
+            <div>IP</div><strong>${data.ip ?? "-"}</strong>
+            <div>IP Version</div><strong>${data.ip_version ?? "-"}</strong>
+            <div>Source</div><strong>${location.source ?? "-"}</strong>
+          </div>
+
+          <div class="section-title">Location</div>
+          <div class="kv">
+            <div>Continent</div><strong>${continent.name ?? "-"}</strong>
+            <div>Country</div><strong>${country.name ?? "-"}</strong>
+            <div>Flag</div><strong>${country.flag_emoji ?? "-"}</strong>
+            <div>Subdivision</div><strong>${subdivision1.name ?? "-"}</strong>
+            <div>Subdivision 2</div><strong>${subdivision2.name ?? "-"}</strong>
+            <div>City</div><strong>${city.name ?? "-"}</strong>
+            <div>Time Zone</div><strong>${geo.time_zone ?? "-"}</strong>
+            <div>Latitude</div><strong>${coords.latitude ?? "-"}</strong>
+            <div>Longitude</div><strong>${coords.longitude ?? "-"}</strong>
+            <div>Postal Code</div><strong>${location.postal_code ?? "-"}</strong>
+          </div>
+
+          <div class="section-title">ASN</div>
+          <div class="kv">
+            <div>Number</div><strong>${asn.number ?? "-"}</strong>
+            <div>Organization</div><strong>${asn.organization ?? "-"}</strong>
+            <div>ASN CIDR</div><strong>${asnNetwork.cidr ?? "-"}</strong>
+          </div>
+
+          <div class="section-title">Network</div>
+          <div class="kv">
+            <div>Location CIDR</div><strong>${locNetwork.cidr ?? "-"}</strong>
+            <div>Prefix Length</div><strong>${locNetwork.prefix_length ?? "-"}</strong>
+            <div>IP Version</div><strong>${locNetwork.ip_version ?? "-"}</strong>
+            <div>GeoName ID</div><strong>${location.geoname_id ?? "-"}</strong>
+            <div>Registered Country</div><strong>${location.registered_country_geoname_id ?? "-"}</strong>
+            <div>Represented Country</div><strong>${location.represented_country_geoname_id ?? "-"}</strong>
+          </div>
+
+          <div class="section-title">Traits</div>
+          <div class="kv">
+            <div>Anonymous Proxy</div><strong>${traits.is_anonymous_proxy ?? "-"}</strong>
+            <div>Satellite Provider</div><strong>${traits.is_satellite_provider ?? "-"}</strong>
+            <div>Anycast</div><strong>${traits.is_anycast ?? "-"}</strong>
+            <div>EU Member</div><strong>${country.is_in_european_union ?? "-"}</strong>
+          </div>
+        `;
+      }
+
+      async function runLookup() {
+        const ip = ipInput.value.trim();
+        if (!ip) {
+          responseOutput.textContent = "Error: please enter an IP address.";
+          visualOutput.textContent = "Error: please enter an IP address.";
+          return;
+        }
+        const apiUrl = buildUrl(ip);
+        requestUrl.textContent = apiUrl;
+        requestTry.href = apiUrl;
+        try {
+          const data = await fetchJson(apiUrl);
+          responseOutput.textContent = JSON.stringify(data, null, 2);
+          renderVisual(data);
+        } catch (err) {
+          responseOutput.textContent =
+            "Error: " + (err && err.message ? err.message : String(err));
+          visualOutput.textContent =
+            "Error: " + (err && err.message ? err.message : String(err));
+        }
+      }
+
+      detectBtn.addEventListener("click", detectIp);
+      lookupBtn.addEventListener("click", runLookup);
+      tabVisual.addEventListener("click", () => setActiveTab("visual"));
+      tabJson.addEventListener("click", () => setActiveTab("json"));
+      copyBtn.addEventListener("click", async () => {
+        const isVisual = tabVisual.classList.contains("active");
+        const text = isVisual
+          ? visualOutput.dataset.copyText || visualOutput.innerText
+          : responseOutput.textContent;
+        try {
+          await navigator.clipboard.writeText(text || "");
+          copyBtn.textContent = "Copied";
+          setTimeout(() => (copyBtn.textContent = "Copy"), 1200);
+        } catch (err) {
+          copyBtn.textContent = "Failed";
+          setTimeout(() => (copyBtn.textContent = "Copy"), 1200);
+        }
+      });
+
+      detectIp().then((ip) => {
+        if (ip) {
+          runLookup();
+        }
+      });
+    </script>
+  </body>
+</html>
