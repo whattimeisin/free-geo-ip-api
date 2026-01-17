@@ -10,7 +10,9 @@ and avoiding third-party network calls.
 ![IPv6](https://img.shields.io/badge/IPv6-supported-blue)
 ![Privacy](https://img.shields.io/badge/no%20external%20calls-privacy--friendly-success)
 
-![Response Example](doc/images/response-example.webp)
+![Response Example](docs/images/response-example.webp)
+
+Preview: https://whattimeisin.github.io/free-geo-ip-api/
 
 ---
 
