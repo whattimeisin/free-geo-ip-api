@@ -12,6 +12,14 @@ PORT="5022"
 export GEOIP_PORT="${PORT}"
 export GEOIP_DB_PATH="${ROOT_DIR}/config/database/WhatTimeIsIn-geoip.db"
 
+if [[ ! -f "${GEOIP_DB_PATH}" ]]; then
+  echo -e "\033[1;31mDatabase not found.\033[0m"
+  echo -e "\033[0;35m[DOWNLOAD URL] https://whattimeis.in/public/downloads/\033[0m"
+  echo -e "\033[0;33mDownload and save it to:\033[0m"
+  echo -e "\033[0;36m${ROOT_DIR}/config/database/WhatTimeIsIn-geoip.db\033[0m"
+  exit 1
+fi
+
 if [[ ! -d "${VENV_DIR}" ]]; then
   python3 -m venv "${VENV_DIR}"
 fi

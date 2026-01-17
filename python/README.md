@@ -12,11 +12,12 @@ Free, local GeoIP API using FastAPI and a local SQLite database.
 
 ## Run
 
-From the repository root:
+From the language folder:
 
 ```bash
-chmod +x ./python/start.sh
-./python/start.sh
+cd python
+chmod +x ./start.sh
+./start.sh
 ```
 
 The API will be available at:
